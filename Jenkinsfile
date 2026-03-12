@@ -45,6 +45,7 @@ pipeline {
                 sh "docker push ${IMAGE_NAME}"
             }
         }
+
         stage('Update GitOps Deployment') {
             steps {
                 withCredentials([usernamePassword(
@@ -64,10 +65,10 @@ pipeline {
                         git config user.name "jenkins"
 
                         # Update image tag
-                        sed -i "s|image: .*frontend.*|image: ${IMAGE_NAME}|g" deployment.yaml
+                        sed -i "s|image: .*checkoutservice.*|image: ${IMAGE_NAME}|g" deployment.yaml
 
                         git add .
-                        git commit -m "Update frontend image to ${IMAGE_NAME}"
+                        git commit -m "Update checkoutservice image to ${IMAGE_NAME}"
                         git push origin main
                     '''
                 }
